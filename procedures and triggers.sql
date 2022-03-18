@@ -107,19 +107,25 @@ end;
 create proc DisciplinaAlunos @cod_disciplina int, @ano int
 as
 begin
-	select ra_aluno,ano,nota1,nota2,media,substitutiva,horasfaltas,codigo_disciplina,codigo_situacao from Matricula where codigo_disciplina = @cod_disciplina and ano = @ano
+	select ra_aluno,Aluno.nome as "nome do aluno",ano,nota1,nota2,media,substitutiva,horasfaltas,codigo_disciplina,Disciplina.nome as "nome da disciplina",codigo_situacao, Situacao.descricao as "Situacao"
+	from Matricula join Situacao on Matricula.codigo_situacao = Situacao.codigo join Aluno on Matricula.ra_aluno = Aluno.ra join Disciplina on Matricula.codigo_disciplina = Disciplina.codigo 
+	where codigo_disciplina = @cod_disciplina and ano = @ano
 end;
 
 --mostra o boletim de um aluno em todas as disciplinas matriculado em um determinado ano e semestre
 create proc BoletimAlunoDisciplinas @ra_aluno varchar(10), @ano int, @semestre int
 as
 begin
-	select ra_aluno,ano,semestre,nota1,nota2,media,substitutiva,horasfaltas,codigo_disciplina,codigo_situacao from Matricula where ra_aluno = @ra_aluno and ano = @ano and semestre = @semestre
+	select ra_aluno,Aluno.nome as "nome do aluno",ano,semestre,nota1,nota2,media,substitutiva,horasfaltas,codigo_disciplina,Disciplina.nome as "nome da disciplina",Situacao.descricao as "Situacao"
+	from Matricula join Situacao on Matricula.codigo_situacao = Situacao.codigo join Aluno on Matricula.ra_aluno = Aluno.ra join Disciplina on Matricula.codigo_disciplina = Disciplina.codigo
+	where ra_aluno = @ra_aluno and ano = @ano and semestre = @semestre
 end;
 
 --mostra todos os alunos repovados por nota em um determinado ano em todas suas disciplinas
 create proc ReprovadosNotas @ano int
 as
 begin
-	select ra_aluno,codigo_disciplina,nota1,nota2,media,substitutiva from Matricula where ano = @ano and codigo_situacao = 2
+	select ra_aluno,Aluno.nome as "nome do aluno",codigo_disciplina,Disciplina.nome as "nome da disciplina",nota1,nota2,media,substitutiva 
+	from Matricula join Aluno on Matricula.ra_aluno = Aluno.ra join Disciplina on Matricula.codigo_disciplina = Disciplina.codigo
+	where ano = @ano and codigo_situacao = 2
 end;
