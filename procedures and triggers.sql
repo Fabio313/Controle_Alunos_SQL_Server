@@ -4,7 +4,7 @@ as
 begin
 	declare 
 		@media float
-	if isnull(@nota2,1) != 1
+	if isnull(@nota2,1) != 1 and isnull(@nota1,1) != 1
 	begin
 		if  isnull(@substitutiva, 1) = 1
 		begin
@@ -98,8 +98,8 @@ begin
 		@hfaltas = inserted.horasfaltas
 		from inserted 
 
-	exec.dbo.FazMediaSituacao @n1, @n2, @sub, @ano, @semestre, @ra, @cod_disc--qualquer alteração da matricula ira verificar a situação de nota
-	exec.dbo.FrequenciaSituacao @ano, @semestre, @ra, @cod_disc, @hfaltas--qualquer alteração da matricula ira verificar a situação de faltas
+	exec.dbo.FazMediaSituacao @n1, @n2, @sub, @ano, @semestre, @ra, @cod_disc--qualquer alteraÃ§Ã£o da matricula ira verificar a situaÃ§Ã£o de nota
+	exec.dbo.FrequenciaSituacao @ano, @semestre, @ra, @cod_disc, @hfaltas--qualquer alteraÃ§Ã£o da matricula ira verificar a situaÃ§Ã£o de faltas
 
 end;
 
